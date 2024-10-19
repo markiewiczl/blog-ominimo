@@ -2,24 +2,24 @@
 
 namespace Database\Seeders;
 
-use App\Models\Post;
-use App\Models\User;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-class CommentSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('comments')->insert([
-            'comment' => Str::random(50),
-            'post_id' => Post::inRandomOrder()->first()->id,
-            'user_id' => User::inRandomOrder()->first()->id,
+        DB::table('users')->insert([
+            'name' => Str::random(10),
+            'email' => Str::random(10).'@example.com',
+            'password' => Hash::make('password'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);

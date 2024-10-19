@@ -38,6 +38,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->middleware('auth')->name('comments.destroy');
 });
 
+Route::get('/', function () {
+    return redirect('/posts');
+});
+
 Route::post('/posts/{id}/comments', [CommentController::class, 'store'])->name('comments.store');
 Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->middleware('auth')->name('comments.destroy');
 
