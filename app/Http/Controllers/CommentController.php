@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
+    /**
+     * @param Request $request
+     * @param $postId
+     * @return RedirectResponse
+     */
     public function store(Request $request, $postId): RedirectResponse
     {
         $request->validate([
@@ -27,6 +32,10 @@ class CommentController extends Controller
         return redirect()->route('posts.show', $post->id)->with('success', 'Comment added successfully.');
     }
 
+    /**
+     * @param $id
+     * @return RedirectResponse
+     */
     public function destroy($id): RedirectResponse
     {
         $comment = Comment::findOrFail($id);
