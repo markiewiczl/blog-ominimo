@@ -2,65 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCommentRequest;
-use App\Http\Requests\UpdateCommentRequest;
 use App\Models\Comment;
+use App\Models\Post;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function store(Request $request, $postId): RedirectResponse
     {
-        //
+        $request->validate([
+            'comment' => 'required|string|max:1000',
+        ]);
+
+        $post = Post::findOrFail($postId);
+
+        Comment::create([
+            'comment' => $request->comment,
+            'user_id' => Auth::id(),
+            'post_id' => $post->id,
+        ]);
+
+        return redirect()->route('posts.show', $post->id)->with('success', 'Comment added successfully.');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function destroy($id): RedirectResponse
     {
-        //
-    }
+        $comment = Comment::findOrFail($id);
+        $post = $comment->post;
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreCommentRequest $request)
-    {
-        //
-    }
+        if (Auth::id() !== $comment->user_id && Auth::id() !== $post->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Comment $comment)
-    {
-        //
-    }
+        $comment->delete();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Comment $comment)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateCommentRequest $request, Comment $comment)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Comment $comment)
-    {
-        //
+        return redirect()->route('posts.show', $post->id)->with('success', 'Comment deleted successfully.');
     }
 }

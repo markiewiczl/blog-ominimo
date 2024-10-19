@@ -30,6 +30,16 @@
             <div class="border-b pb-4 mb-4">
                 <p>{{ $comment->comment }}</p>
                 <p class="text-sm text-gray-500">By {{ $comment->user->name }} | {{ $comment->created_at->diffForHumans() }}</p>
+
+                @auth
+                    @if ($comment->user_id === auth()->id() || $post->user_id === auth()->id())
+                        <form action="{{ route('comments.destroy', $comment->id) }}" method="POST" class="mt-2">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-red-500">Delete</button>
+                        </form>
+                    @endif
+                @endauth
             </div>
         @endforeach
     </div>

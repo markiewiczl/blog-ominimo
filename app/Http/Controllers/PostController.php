@@ -3,18 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(): View|Factory|Application
     {
         $posts = Post::with('user')->latest()->get();
         return view('posts.index', compact('posts'));
     }
 
-    public function create()
+    public function create(): View|Factory|Application
     {
         return view('posts.create');
     }
