@@ -25,3 +25,5 @@ php artisan db:seed --class=CommentSeeder
 ### 4. enter localhost
 
 You can access the application at [http://localhost](http://localhost).
+
+## I didn't added unit test, because this is is mostly based on controllers, and this will be not a good practise
