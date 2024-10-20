@@ -17,9 +17,7 @@ npm run dev
 
 ### 3. load seeders
 ```bash
-php artisan db:seed --class=UserSeeder
-php artisan db:seed --class=PostSeeder
-php artisan db:seed --class=CommentSeeder
+php artisan db:seed
 ```
 
 ### 4. enter localhost
